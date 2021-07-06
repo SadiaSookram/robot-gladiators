@@ -53,7 +53,7 @@ console.log(
   playerName + " attacked " + enemyName + ". " + enemyName + " now has " + enemyHealth + " health remaining."
 ); 
 
-// check enemy's health
+// check enemys health
     if (enemyHealth <= 0) {
       window.alert(enemyName + " has died!");
 
