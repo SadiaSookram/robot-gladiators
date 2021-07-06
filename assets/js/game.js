@@ -4,28 +4,53 @@
 //         *Defeat each enemy-robot
 // "LOSE" - Player robot's health is zero or less
 
+// function to generate a random numeric value
+var randomNumber = function(min, max) {
+  var value = Math.floor(Math.random() * (max - min + 1) + min);
+
+  return value;
+};
+
+// Fight of Skip fuction check
+var fightOrSkip = function() {
+// ask player if they'd like to fight or skip using fightOrSkip function
+  var promptFight = window.prompt('Would you like to FIGHT or SKIP this battle? Enter "FIGHT" or "SKIP" to choose.');
+
+// if the `promptFight` is NOT a valid value, then execute the following statements.
+// conditional recursive function
+if (promptFight === "" || promptFight === null) {
+  window.alert("You need to provide a valid answer! Please try again.");
+  return fightOrSkip();
+}
+
+// if player picks "skip" confirm and then stop the loop
+promptFight = promptFight.toLowerCase();
+if (promptFight === "skip") {
+// confirm player wants to skip
+    var confirmSkip = window.confirm("Are you sure you'd like to quit?");
+
+// if yes (true), leave fight
+    if (confirmSkip) {
+      window.alert(playerInfo.name + " has decided to skip this fight. Goodbye!");
+// subtract money from playerMoney for skipping, dont let them go into the negative
+      playerInfo.playerMoney = playerInfo.money - 10;
+// return true if player wants to leave
+return true;
+} 
+}
+    return false;
+  };
+  
 
 // fighting function
 var fight = function(enemy) {
   
 // repeat and execute as long as the enemy-robot is alive
 while (playerInfo.health > 0 && enemy.health > 0) {
-// Asking player if they'd like to fight 
-var promptFight = window.prompt("Would you like to FIGHT or Skip this battle? Enter 'FIGHT' or 'SKIP' to choose.");
-
-// if player choses to skip confirm and stop loop
-if (promptFight === "skip" || promptFight === "SKIP") {
-// confirm player wants to skip
-var confirmSkip = window.confirm("Are you sure you'd like to quit?");
-  // if yes (true), leave fight
-      if (confirmSkip) {
-        window.alert(playerInfo.name + " has decided to skip this fight. Goodbye!");
-        // subtract money from playerMoney for skipping
-        playerInfo.money = Math.max(0, playerInfo.money - 10);
-        console.log("playerMoney" , playerInfo.money)
-        break;
-      }
-    } 
+ if (fightOrSkip()) {
+    //if true , leave fight by breaking loop
+    break;
+  }
 // remove enemy's health by subtracting the amount set in the playerAttack variable
 var damage =randomNumber(playerInfo.attack - 3,playerInfo.attack);
 enemy.health =Math.max(0, enemy.health - damage);
@@ -158,13 +183,6 @@ switch (shopOptionPrompt) {
     shop();
     break;
 }
-  };
-
-  // function to generate a random numeric value
-  var randomNumber = function(min, max) {
-    var value = Math.floor(Math.random() * (max - min + 1) + min);
-
-    return value;
   };
 
   //function to set name
